@@ -1,0 +1,75 @@
+name: Build Android APK (حصّن نفسك)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build & Export APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.7'
+          channel: 'stable'
+          cache: true
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Run Automated Tests
+        run: flutter test
+
+      - name: Build Release APK
+        run: flutter build apk --release
+
+      - name: Upload APK to Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hisn-Nafsak-Release-APK
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        with:
+          tag_name: v1.0.0
+          name: "تطبيق حصّن نفسك - النسخة التجريبية v1.0.0"
+          draft: false
+          prerelease: false
+          body: |
+            ### تطبيق حصّن نفسك (نسخة تجريبية قابلة للتثبيت المباشر) 📱✨
+
+            تم تجميع وبناء هذا الملف تلقائياً عبر GitHub Actions وهو جاهز للتثبيت الفوري على أي هاتف أندرويد.
+
+            #### المحتويات والميزات المضمنة:
+            - **أذكار الصباح والمساء**: بعدادات وتنبيهات وتصميم متناسق.
+            - **أذكار بعد الصلاة المفروضة**: بالنصوص والتشكيل الكامل.
+            - **المصحف الشريف**: تصفح وقراءة جزء عمّ وجزء تبارك بدقة عالية مع حفظ مكان القراءة وتكبير الصفحات.
+            - **الأربعون النووية**: قراءة وتصفح أحاديث كتاب الأربعين النووية كاملاً.
+            - **محاسبة النفس اليومية**: متابعة الصلوات الخمس وسنن الرواتب والأعمال اليومية ونسب الإنجاز.
+            - **المسبحة الإلكترونية**: بعدادات قابلة للتصفير وأذكار متنوعة.
+            - **وقفات تدبرية**: بطاقات تدبر يومية لمشاركتها وحفظها.
+
+            قم بتحميل ملف **`app-release.apk`** أدناه مباشرة على هاتفك لتثبيته.
+          files: build/app/outputs/flutter-apk/app-release.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
