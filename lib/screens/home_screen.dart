@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../data/athkar_data.dart';
 import '../data/post_prayer_athkar_data.dart';
 import '../theme/app_theme.dart';
@@ -807,7 +808,7 @@ class HomeScreen extends StatelessWidget {
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
-                              Icons.self_improvement_rounded,
+                              Icons.balance_rounded,
                               color: AppTheme.goldAccent,
                               size: 28,
                             ),
@@ -1077,6 +1078,11 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 20),
+
+                  // ================= قسم المتابعة والتواصل (انستقرام ap1rs) =================
+                  _buildInstagramFollowSection(context, isDark),
+
+                  const SizedBox(height: 24),
                 ]),
               ),
             ),
@@ -1514,6 +1520,148 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+  Widget _buildInstagramFollowSection(BuildContext context, bool isDark) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: isDark ? AppTheme.darkCard : Colors.white,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(
+          color: const Color(0xFFE1306C).withValues(alpha: 0.3),
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFE1306C).withValues(alpha: isDark ? 0.15 : 0.08),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color(0xFF833AB4),
+                      Color(0xFFFD1D1D),
+                      Color(0xFFF77737),
+                    ],
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFFE1306C).withValues(alpha: 0.35),
+                      blurRadius: 8,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: const Icon(
+                  Icons.camera_alt_rounded,
+                  color: Colors.white,
+                  size: 26,
+                ),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'نسعد بمتابعتك لنا وإعطائنا رأيك',
+                      style: AppTheme.getCairoFont(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: isDark ? Colors.white : AppTheme.primaryGreenDark,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      'شاركنا اقتراحاتك وملاحظاتك لتطوير التطبيق',
+                      style: AppTheme.getCairoFont(
+                        fontSize: 12,
+                        color: isDark ? Colors.white70 : Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          InkWell(
+            onTap: () async {
+              final uri = Uri.parse('https://www.instagram.com/ap1rs/');
+              try {
+                final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+                if (!launched) {
+                  await launchUrl(uri, mode: LaunchMode.platformDefault);
+                }
+              } catch (_) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'يمكنك زيارة حسابنا على انستقرام: @ap1rs',
+                        style: AppTheme.getCairoFont(),
+                      ),
+                    ),
+                  );
+                }
+              }
+            },
+            borderRadius: BorderRadius.circular(14),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xFF833AB4),
+                    Color(0xFFC13584),
+                    Color(0xFFE1306C),
+                  ],
+                  begin: Alignment.centerRight,
+                  end: Alignment.centerLeft,
+                ),
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFC13584).withValues(alpha: 0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.open_in_new_rounded, color: Colors.white, size: 18),
+                  const SizedBox(width: 8),
+                  Text(
+                    'تابعنا على انستقرام (@ap1rs)',
+                    style: AppTheme.getCairoFont(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

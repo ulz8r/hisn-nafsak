@@ -257,7 +257,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> with SingleTick
                 title: 'الاستغفار',
                 value: '$istighfar مرة',
                 subtitle: 'محو للذنوب وتفريج للكرب',
-                icon: Icons.spa_rounded,
+                icon: Icons.water_drop_rounded,
                 color: Colors.indigo,
                 isDark: isDark,
               ),

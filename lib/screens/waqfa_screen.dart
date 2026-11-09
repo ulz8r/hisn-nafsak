@@ -279,7 +279,7 @@ class _WaqfaScreenState extends State<WaqfaScreen> {
                 ),
                 child: Column(
                   children: [
-                    const Icon(Icons.self_improvement_rounded, size: 36, color: AppTheme.goldAccent),
+                    const Icon(Icons.balance_rounded, size: 36, color: AppTheme.goldAccent),
                     const SizedBox(height: 10),
                     Text(
                       '«حَاسِبُوا أَنْفُسَكُمْ قَبْلَ أَنْ تُحَاسَبُوا، وَزِنُوا أَنْفُسَكُمْ قَبْلَ أَنْ تُوزَنُوا، وَأَصْلِحْ مَا بَيْنَكَ وَبَيْنَ اللَّهِ؛ فَكُلُّ يَوْمٍ جَدِيدٍ فُرْصَةٌ لِلتَّوْبَةِ وَالْبِدَايَةِ مِنْ جَدِيدٍ».',

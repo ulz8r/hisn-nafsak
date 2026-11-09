@@ -426,19 +426,19 @@ class PrayerAccountabilityScreen extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: Center(
                     child: Text(
-                      'أديت الصلاة؟',
+                      'هل أديت الصلاة؟',
                       style: AppTheme.getCairoFont(fontWeight: FontWeight.bold, fontSize: 13),
                     ),
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: Center(
                     child: Text(
-                      'في جماعة؟',
+                      'هل أديتها جماعة؟',
                       style: AppTheme.getCairoFont(fontWeight: FontWeight.bold, fontSize: 13),
                     ),
                   ),
@@ -482,106 +482,98 @@ class PrayerAccountabilityScreen extends StatelessWidget {
                         ),
                       ),
 
-                      // زر التبديل: هل صليت؟
+                      // مربعات الاختيار: هل أديت الصلاة؟ (مربع لـ نعم ومربع لـ لا)
                       Expanded(
-                        flex: 3,
-                        child: Center(
-                          child: InkWell(
-                            onTap: () {
-                              settingsController.triggerTapFeedback();
-                              controller.togglePrayerStatus(id);
-                            },
-                            borderRadius: BorderRadius.circular(20),
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 200),
-                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                              decoration: BoxDecoration(
-                                color: prayerItem.prayed
-                                    ? Colors.green.shade600
-                                    : (isDark ? Colors.white10 : Colors.grey.withValues(alpha: 0.15)),
-                                borderRadius: BorderRadius.circular(20),
+                        flex: 4,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: Row(
+                            children: [
+                              _buildChoiceBox(
+                                label: 'نعم',
+                                icon: Icons.check_rounded,
+                                isSelected: prayerItem.prayed,
+                                activeColor: Colors.green.shade600,
+                                isDark: isDark,
+                                onTap: () {
+                                  settingsController.triggerTapFeedback();
+                                  controller.togglePrayerStatus(id, prayed: true);
+                                },
                               ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    prayerItem.prayed ? Icons.check : Icons.close,
-                                    size: 16,
-                                    color: prayerItem.prayed ? Colors.white : Colors.grey,
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    prayerItem.prayed ? 'نعم' : 'لا',
-                                    style: AppTheme.getCairoFont(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: prayerItem.prayed ? Colors.white : Colors.grey,
-                                    ),
-                                  ),
-                                ],
+                              const SizedBox(width: 6),
+                              _buildChoiceBox(
+                                label: 'لا',
+                                icon: Icons.close_rounded,
+                                isSelected: !prayerItem.prayed,
+                                activeColor: Colors.red.shade600,
+                                isDark: isDark,
+                                onTap: () {
+                                  settingsController.triggerTapFeedback();
+                                  controller.togglePrayerStatus(id, prayed: false);
+                                },
                               ),
-                            ),
+                            ],
                           ),
                         ),
                       ),
 
-                      // زر التبديل: هل صليت جماعة؟ (معطل إذا لم يُصلِّ أصلاً)
+                      // مربعات الاختيار: هل أديتها في جماعة؟ (مربع لـ نعم ومربع لـ لا)
                       Expanded(
-                        flex: 3,
-                        child: Center(
-                          child: InkWell(
-                            onTap: prayerItem.prayed
-                                ? () {
-                                    settingsController.triggerTapFeedback();
-                                    controller.togglePrayerJamaah(id);
-                                  }
-                                : () {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          'يجب تحديد أداء الصلاة أولاً لتحديد صلاتها جماعة.',
-                                          style: AppTheme.getCairoFont(),
-                                        ),
-                                        duration: const Duration(seconds: 2),
-                                      ),
-                                    );
-                                  },
-                            borderRadius: BorderRadius.circular(20),
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 200),
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                              decoration: BoxDecoration(
-                                color: !prayerItem.prayed
-                                    ? (isDark ? Colors.white.withValues(alpha: 0.04) : Colors.grey.withValues(alpha: 0.08))
-                                    : (prayerItem.inJamaah
-                                        ? Colors.blue.shade700
-                                        : (isDark ? Colors.white10 : Colors.grey.withValues(alpha: 0.15))),
-                                borderRadius: BorderRadius.circular(20),
+                        flex: 4,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: Row(
+                            children: [
+                              _buildChoiceBox(
+                                label: 'نعم',
+                                icon: Icons.groups_rounded,
+                                isEnabled: prayerItem.prayed,
+                                isSelected: prayerItem.prayed && prayerItem.inJamaah,
+                                activeColor: Colors.blue.shade700,
+                                isDark: isDark,
+                                onTap: prayerItem.prayed
+                                    ? () {
+                                        settingsController.triggerTapFeedback();
+                                        controller.togglePrayerStatus(id, inJamaah: true);
+                                      }
+                                    : () {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'يجب تحديد أداء الصلاة أولاً (نعم) لتحديد صلاتها جماعة.',
+                                              style: AppTheme.getCairoFont(),
+                                            ),
+                                            duration: const Duration(seconds: 2),
+                                          ),
+                                        );
+                                      },
                               ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    prayerItem.inJamaah ? Icons.groups_rounded : Icons.person_outline,
-                                    size: 16,
-                                    color: !prayerItem.prayed
-                                        ? Colors.grey.withValues(alpha: 0.4)
-                                        : (prayerItem.inJamaah ? Colors.white : Colors.grey),
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    prayerItem.inJamaah ? 'جماعة' : 'منفرداً',
-                                    style: AppTheme.getCairoFont(
-                                      fontSize: 11,
-                                      fontWeight: prayerItem.inJamaah ? FontWeight.bold : FontWeight.normal,
-                                      color: !prayerItem.prayed
-                                          ? Colors.grey.withValues(alpha: 0.4)
-                                          : (prayerItem.inJamaah ? Colors.white : Colors.grey),
-                                    ),
-                                  ),
-                                ],
+                              const SizedBox(width: 6),
+                              _buildChoiceBox(
+                                label: 'لا',
+                                icon: Icons.person_outline_rounded,
+                                isEnabled: prayerItem.prayed,
+                                isSelected: prayerItem.prayed && !prayerItem.inJamaah,
+                                activeColor: Colors.orange.shade800,
+                                isDark: isDark,
+                                onTap: prayerItem.prayed
+                                    ? () {
+                                        settingsController.triggerTapFeedback();
+                                        controller.togglePrayerStatus(id, inJamaah: false);
+                                      }
+                                    : () {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'يجب تحديد أداء الصلاة أولاً (نعم) لتحديد صلاتها جماعة.',
+                                              style: AppTheme.getCairoFont(),
+                                            ),
+                                            duration: const Duration(seconds: 2),
+                                          ),
+                                        );
+                                      },
                               ),
-                            ),
+                            ],
                           ),
                         ),
                       ),
@@ -593,6 +585,73 @@ class PrayerAccountabilityScreen extends StatelessWidget {
             );
           }),
         ],
+      ),
+    );
+  }
+
+  Widget _buildChoiceBox({
+    required String label,
+    required bool isSelected,
+    required Color activeColor,
+    required VoidCallback onTap,
+    required bool isDark,
+    bool isEnabled = true,
+    IconData? icon,
+  }) {
+    return Expanded(
+      child: InkWell(
+        onTap: isEnabled ? onTap : null,
+        borderRadius: BorderRadius.circular(10),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: !isEnabled
+                ? (isDark ? Colors.white.withValues(alpha: 0.03) : Colors.grey.withValues(alpha: 0.08))
+                : (isSelected
+                    ? activeColor
+                    : (isDark ? Colors.white10 : Colors.grey.withValues(alpha: 0.12))),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: isSelected
+                  ? activeColor
+                  : (isDark ? Colors.white12 : Colors.grey.withValues(alpha: 0.25)),
+              width: isSelected ? 1.5 : 1.0,
+            ),
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: activeColor.withValues(alpha: 0.25),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ]
+                : null,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (icon != null && isSelected) ...[
+                Icon(icon, size: 13, color: Colors.white),
+                const SizedBox(width: 3),
+              ],
+              Text(
+                label,
+                style: AppTheme.getCairoFont(
+                  fontSize: 12,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+                  color: !isEnabled
+                      ? (isDark ? Colors.white24 : Colors.grey.shade400)
+                      : (isSelected
+                          ? Colors.white
+                          : (isDark ? Colors.white70 : Colors.black87)),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
