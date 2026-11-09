@@ -1,5 +1,6 @@
 import '../models/thikr_model.dart';
 import 'post_prayer_athkar_data.dart';
+import 'sleep_wake_athkar_data.dart';
 
 class AthkarData {
   /// أذكار الصباح كاملة بدقة مع التشكيل والفضائل والأعداد
@@ -594,4 +595,10 @@ class AthkarData {
 
   /// أذكار بعد الصلاة المفروضة
   static List<Thikr> get postPrayerAthkar => PostPrayerAthkarData.postPrayerAthkar;
+
+  /// أذكار النوم الصحيحة
+  static List<Thikr> get sleepAthkar => SleepWakeAthkarData.sleepAthkar;
+
+  /// أذكار الاستيقاظ من النوم
+  static List<Thikr> get wakeAthkar => SleepWakeAthkarData.wakeAthkar;
 }

@@ -13,6 +13,8 @@ import 'daily_deeds_screen.dart';
 import 'hadith_screen.dart';
 import 'achievements_screen.dart';
 import 'waqfa_screen.dart';
+import 'sleep_wake_screen.dart';
+import 'athkar_virtues_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   final SettingsController settingsController;
@@ -290,6 +292,11 @@ class HomeScreen extends StatelessWidget {
               backgroundColor: AppTheme.primaryGreen,
               actions: [
                 IconButton(
+                  icon: const Icon(Icons.info_outline_rounded, color: Colors.white),
+                  tooltip: 'فضل أذكار اليوم والليلة',
+                  onPressed: () => _showVirtuesDialog(context),
+                ),
+                IconButton(
                   icon: const Icon(Icons.settings_outlined, color: Colors.white),
                   tooltip: 'الإعدادات',
                   onPressed: () => _showSettingsDialog(context),
@@ -474,6 +481,50 @@ class HomeScreen extends StatelessWidget {
                           ),
                         );
                       }
+                    },
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // بطاقة أذكار النوم والاستيقاظ
+                  _buildAthkarHeroCard(
+                    context: context,
+                    title: 'أذكار النوم والاستيقاظ',
+                    subtitle: 'سكينة وأمان عند المنام، وحمد وشكر لله عند الاستيقاظ',
+                    countText: '٩ أذكار للنوم • ٣ أذكار للاستيقاظ',
+                    icon: Icons.bedtime_rounded,
+                    gradientColors: [const Color(0xFF1E1B4B), const Color(0xFF312E81), const Color(0xFF4338CA)],
+                    isHighlight: false,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => SleepWakeScreen(
+                            settingsController: settingsController,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // بطاقة فضائل الأذكار
+                  _buildAthkarHeroCard(
+                    context: context,
+                    title: 'فضائل الأذكار',
+                    subtitle: 'أحاديث نبوية صحيحة في عظيم أجر الذكر وبركته ومغفرة الذنوب',
+                    countText: 'أحاديث صحيحة ومخرجة',
+                    icon: Icons.auto_awesome,
+                    gradientColors: [const Color(0xFF065F46), const Color(0xFF047857), const Color(0xFF059669)],
+                    isHighlight: false,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const AthkarVirtuesScreen(),
+                        ),
+                      );
                     },
                   ),
 
@@ -934,12 +985,19 @@ class HomeScreen extends StatelessWidget {
                       Expanded(
                         child: _buildSectionCard(
                           context: context,
-                          title: 'فضائل الذكر',
-                          subtitle: 'بركات وفوائد الأذكار النبوية',
+                          title: 'فضائل الأذكار',
+                          subtitle: 'أحاديث نبوية صحيحة وبركات الذكر',
                           icon: Icons.auto_awesome,
                           color: AppTheme.goldAccentDark,
-                          badge: 'فوائد',
-                          onTap: () => _showVirtuesDialog(context),
+                          badge: 'فضائل',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const AthkarVirtuesScreen(),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ],
