@@ -1,11 +1,11 @@
 {
-    "name": "hisn_nafsak",
-    "short_name": "hisn_nafsak",
+    "name": "حصن نفسك",
+    "short_name": "حصن نفسك",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#0D5C3A",
+    "theme_color": "#0D5C3A",
+    "description": "تطبيق حصن نفسك - أذكار اليوم والليلة والقرآن الكريم والأربعون النووية ومحاسبة النفس والمعلومات الدينية.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

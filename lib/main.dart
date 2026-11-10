@@ -31,7 +31,7 @@ class HisnNafsakApp extends StatelessWidget {
       animation: settingsController,
       builder: (context, _) {
         return MaterialApp(
-          title: 'حصّن نفسك',
+          title: 'حصن نفسك',
           debugShowCheckedModeBanner: false,
           themeMode: settingsController.themeMode,
           theme: AppTheme.lightTheme,

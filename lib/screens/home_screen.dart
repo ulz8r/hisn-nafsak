@@ -292,6 +292,13 @@ class HomeScreen extends StatelessWidget {
               expandedHeight: 220.0,
               pinned: true,
               backgroundColor: AppTheme.primaryGreen,
+              leading: Padding(
+                padding: const EdgeInsets.all(10),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset('assets/images/app_logo.png', fit: BoxFit.cover),
+                ),
+              ),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.info_outline_rounded, color: Colors.white),
