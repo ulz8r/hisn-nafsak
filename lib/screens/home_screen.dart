@@ -16,6 +16,7 @@ import 'achievements_screen.dart';
 import 'waqfa_screen.dart';
 import 'sleep_wake_screen.dart';
 import 'athkar_virtues_screen.dart';
+import 'info_home_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   final SettingsController settingsController;
@@ -524,6 +525,27 @@ class HomeScreen extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (_) => const AthkarVirtuesScreen(),
+                        ),
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // بطاقة قسم معلومات
+                  _buildAthkarHeroCard(
+                    context: context,
+                    title: 'معلومات',
+                    subtitle: 'مكتبة المعلومات الدينية: أحكام الصلاة، ومحظورات الصلاة والمسجد مصورة بالأدلة',
+                    countText: '٣ تصنيفات • ٢٣ موضوعاً موثقاً',
+                    icon: Icons.library_books_rounded,
+                    gradientColors: [const Color(0xFF0F766E), const Color(0xFF115E59), const Color(0xFF134E4A)],
+                    isHighlight: false,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const InfoHomeScreen(),
                         ),
                       );
                     },

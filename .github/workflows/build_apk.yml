@@ -51,8 +51,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         with:
-          tag_name: v1.1.0
-          name: "تطبيق حصّن نفسك - الإصدار v1.1.0 (أذكار النوم والاستيقاظ وفضائل الأذكار)"
+          tag_name: v1.2.0
+          name: "تطبيق حصّن نفسك - الإصدار v1.2.0 (قسم معلومات ومحظورات الصلاة والمسجد)"
           draft: false
           prerelease: false
           body: |
